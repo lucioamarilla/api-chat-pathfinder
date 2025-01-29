@@ -106,17 +106,17 @@ def formatear_texto(texto):
     return texto_completo
 
 def extraer_nombre(metadata):
-    
     if isinstance(metadata, str):
         metadata = eval(metadata)  
     
-    ruta = metadata.get("source", "")
-    nombre_archivo = os.path.basename(ruta)  
+    nombre_archivo = os.path.basename(metadata.get("source", ""))
+      
     nombre_sin_extension = os.path.splitext(nombre_archivo)[0]  
     
     pagina = metadata.get("page", "")
     
     resultado = f"{nombre_sin_extension}_page_{pagina}"
+    
     return resultado
 
 def retriever_fun(pregunta):
@@ -126,8 +126,9 @@ def retriever_fun(pregunta):
     data_retriever = retriever.invoke(pregunta)
     
     for i in data_retriever:
+        
         data_books[extraer_nombre(i.metadata)] = formatear_texto(i.page_content)
-        cont+=1
+        cont += 1
         
     return data_retriever
 
